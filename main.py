@@ -1,8 +1,13 @@
+import textwrap
+
 menu = """
 ====================
  [1] Sacar
  [2] Depositar
  [3] Extrato
+ [4] Cadastro de usuário  
+ [5] Criar uma nova conta 
+ [6] Listar contas
  [0] Sair
 ====================
 =>  """
@@ -14,6 +19,9 @@ numero_de_saques = 0
 LIMITE_SAQUES = 3
 contagem = 0
 soma_de_saques_diarios = 0
+usuarios = []
+contas = []
+AGENCIA = "0001"
 
 
 def sacar(*,saldo, valor, extrato, limite):
@@ -69,6 +77,47 @@ def exibir_extrato(saldo,/, *, extrato):
         print("=======================================")
     return(saldo, extrato)
 
+def cadastro_usuário(usuarios):
+    cpf = input("Informe seu CPF(somente número): ")
+    usuario = filtrar_usuario(cpf, usuarios)
+
+    if usuario:
+        print("Já existe usuário com esse CPF!")
+        return
+    
+    nome = input("Informe o nome completo: ")
+    data_nascimento = input("Informe a data de nascimento (dd-mm-aaaa): ")
+    endereco = input("Informe o endereço (logradouro, nro - bairro - cidade/sigla estado): ")
+
+    usuarios.append({"nome": nome, "data_nascimento": data_nascimento, "cpf": cpf, "endereco": endereco})
+
+    print("Usuário cadastrado com sucesso!")
+
+def filtrar_usuario(cpf, usuarios):
+    usuarios_filtrados = [usuario for usuario in usuarios if usuario["cpf"] == cpf]
+    return usuarios_filtrados[0] if usuarios_filtrados else None
+
+def criar_conta(agencia, numero_conta, usuarios):
+    cpf = input("Informe o CPF do usuário: ")
+    usuario = filtrar_usuario(cpf, usuarios)
+
+    if usuario:
+        print("\nConta criada com sucesso")
+        return {"agencia":agencia,"numero_conta":numero_conta, "usuario": usuario}
+               
+    print("\nUsuário não encontrado, conta não pode ser criada.")
+
+def listar_contas(contas):
+    for conta in contas:
+        linha = f"""\
+            Agência:\t{conta['agencia']}
+            C/C:\t\t{conta['numero_conta']}
+            Titular:\t{conta['usuario']['nome']}
+        """
+        print("=" * 100)
+        print(textwrap.dedent(linha))
+
+
 while True:
 
     opcao = input(menu)
@@ -98,9 +147,25 @@ while True:
             extrato=extrato
         )
 
-
+    
     elif opcao == "4":
+        cadastro_usuário(usuarios)
+
+    
+    elif opcao == "5":
+        numero_conta = len(contas) + 1
+        conta = criar_conta(AGENCIA, numero_conta, usuarios)
+
+        if conta:
+            contas.append(conta)
+
+
+    elif opcao == "6":
+        listar_contas(contas)
+
+    elif opcao == "0":
         break
+
     else:
         print("Opção inválida, tente novamente com uma opção válida.")
 
