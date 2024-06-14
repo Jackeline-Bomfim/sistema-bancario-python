@@ -45,3 +45,17 @@ Precisamos deixar nosso cógido mais modularizado, para isso vamos criar funçõ
   O programa deve armazenar contas em uma lista, uma conta é composta por: agência, número da conta e usuário. O número da conta é sequencial, iniciando em 1. O número da agência é fixo: "0001". O usuário pode ter mais de uma conta mais uma conta pertence a somente um usuário.
 
 **DICA**: para vincular um usuário a uma conta, filtre a lista de usuários buscando o número do cpf informado para cada usuário da lista.
+
+### Novas etapas do desafio
+
+Iniciar a modelagem do sistema bancário em POO. adicionar classes para cliente e as operações bancárias: depósito e saque.
+
+#### Desafio
+
+Atualizar a implementação do sistema bancário, para armazenar os dados de clientes e contas bancárias em  objetos ao invés de dicionários. O código deve seguir o modelo de classes UML a seguir:
+
+![alt text](image.png)
+
+#### Desafio extra
+
+Após concluir a modelagem das classes e a criação dos métodos. Atualizar os métodos que tratam as opçoes do menu, para funcionarem com as classes modeladas.
